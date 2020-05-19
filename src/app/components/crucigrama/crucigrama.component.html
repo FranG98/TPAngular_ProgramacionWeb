@@ -1,0 +1,45 @@
+<h5 class="h5 text-center border border-dark py-1">CRUCIGRAMA</h5>
+<div class="jumbotron jumbotron-fluid px-4" *ngIf="mostrar; else elseBlock">
+    <h6 class="display-4"><small>Juego del crucigrama</small></h6>
+    <p class="lead">En este juego tienes que adivinar la palabra en inglés de los hardware que se mostrarán en pantalla insertando sus letras correspondientes. Cuentas con 6 intentos en total, buena suerte!</p>
+    <hr class="my-4">
+    <p>Para empezar el juego haz clic en el siguiente boton:</p>
+    <p class="lead">
+      <a class="btn text-white" role="button" style="background-color: #ff9900;" (click)="cambio()">INICIO</a>
+    </p>
+</div>
+<ng-template #elseBlock>
+    <div class="card" *ngIf="!juegoPerdido && !juegoCompletado; else elseBlock">
+        <div class="card-header bg-white text-right">
+          <b>Vidas: {{vidas}} Puntaje: {{puntaje}}</b>
+        </div>
+        <div class="card-body row text-center" style="background-color: lightgrey; width: 100%; margin-left: 0px;">
+          <div class="text-center col-12"><img class="img-thumbnail border border-dark p-1" src="{{palabraSelect.url}}"></div> 
+          <div *ngFor="let item of palabraActual; index as i">
+            <div class="px-3 col-3 d-inline">
+              <input type="text" class="inline mx-1 border border-dark text-center" style="height: 37px; width: 37px; margin-top: 15px;" 
+              maxlength="1" name="letra" [(ngModel)]="arrayAux[i]" (ngModelChange)="check($event, palabraActual[i]);">
+            </div>    
+          </div>
+        </div>      
+        <h5 class="h5 text-center border border-dark py-1" style="margin-bottom: 0px;">{{palabraSelect.palabraEspaniol | uppercase}}</h5>
+    </div>
+    <ng-template #elseBlock>  
+      <div class="jumbotron jumbotron-fluid px-4" style="height: 100%;" *ngIf="juegoPerdido; else elseBlock">
+          <h6 class="display-4"><small>Perdiste!</small></h6>
+         <p class="lead">Para volver a empezar, haz click en el botón de abajo</p>
+         <p class="lead">
+            <a class="btn text-white" role="button" style="background-color: #ff9900;" (click)="reset()">INICIO</a>
+          </p>
+      </div>
+      <ng-template #elseBlock>
+        <div class="jumbotron jumbotron-fluid px-4" style="height: 100%;">
+          <h6 class="display-4"><small>Ganaste!</small></h6>
+          <p class="lead">Para volver a empezar, haz click en el botón de abajo</p>
+          <p class="lead">
+            <a class="btn text-white" role="button" style="background-color: #ff9900;" (click)="reset()">INICIO</a>
+          </p>
+      </div>
+      </ng-template>
+    </ng-template>
+</ng-template>

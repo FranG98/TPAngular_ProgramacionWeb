@@ -1,0 +1,49 @@
+<form class="bg-danger">
+    <h4 class="text-center bg-danger text-white py-1">Formulario de registro de información de asistente</h4>
+    <div class="form-group row">
+        <div class="col-md-3 col-sm-4 col-4">
+            <label class="text-white px-md-3 px-sm-2 px-2">Nombre completo: </label>
+        </div>
+        <div class="col-md-9 col-sm-8 col-8">
+            <input type="text" class="form-control " name="nom" style="width: 85%; height: 27px;" required [(ngModel)]="asistente.usuario">
+        </div>    
+    </div>
+    <div class="form-group row py-1">
+        <div class="col-md-3 col-sm-4 col-4">
+            <label class="text-white px-md-3 px-sm-2 px-2">Nombre de organización: </label>
+        </div>
+        <div class="col-md-9 col-sm-8 col-8">
+            <input type="text" class="form-control " name="org" style="width: 85%; height: 27px;" required [(ngModel)]="asistente.nombreOrg">
+        </div>    
+    </div>
+    <div class="form-group py-1 row">
+        <div class="col-md-3 col-sm-4 col-4">
+            <label class="text-white px-md-3 px-sm-2 px-2">Requiere de una constancia?</label>
+        </div>
+        <div class="form-check form-check-inline px-4">
+            <input class="form-check-input" type="radio" name="opcionSiNo" id="opcion1" [(ngModel)]="asistente.solicitaConstancia" [value]="true">
+            <label class="form-check-label text-white" for="inlineRadio1">Si</label>
+          </div>
+          <div class="form-check form-check-inline px-1">
+            <input class="form-check-input" type="radio" name="opcionSiNo" id="opcion2" [(ngModel)]="asistente.solicitaConstancia" [value]="false">
+            <label class="form-check-label text-white" for="inlineRadio2">No</label>
+          </div>
+    </div>
+    <div class="form-group py-1 row">
+        <button class="btn btn-primary" type="submit" style="margin-left: 75%; margin-bottom: 5px;" (click)="registrarAsistente()">Registrar</button>
+    </div>
+</form>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr class="text-center">
+      <th scope="col">Nombre y Apellido del asistente</th>
+      <th scope="col">Nombre de la organización</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="px-3" *ngFor="let item of asistentes">
+      <td>{{item.usuario}}</td>
+      <td>{{item.nombreOrg | uppercase}}</td>
+    </tr>
+  </tbody>
+</table>

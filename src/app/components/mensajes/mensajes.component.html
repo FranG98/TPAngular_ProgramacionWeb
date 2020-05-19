@@ -1,0 +1,45 @@
+<div>
+    <form class="card">
+      <div class="card-header bg-warning"> <p class="h4" style="background-color: aquamarine; padding: 5px; border-radius: 3px; margin-top: -12px; width: 225px;">Envía tu Mensaje</p></div>
+        <div class="card-body bg-secondary">
+          <div class="row form-group">
+            <label class="col-sm-12 col-md-4 text-white">Para:</label>
+            <input class="form-control col-sm-12 col-md-8" type="number" name="txtpara" [(ngModel)]="mensaje.para"/>
+          </div>
+        <div class="row form-group">
+          <label class="col-sm-12 col-md-4 text-white" >De:</label>
+          <input class="form-control col-sm-12 col-md-8" type="number" name="txtde" [(ngModel)]="mensaje.de"/>
+        </div>
+        <label> </label>
+        <div class="row form-group">
+            <label class="col-sm-6 col-md-8 text-white">Su mensaje</label>
+            <label class="col-sm-6 col-md-4 text-right text-white">({{tamMaxTexto-tamTexto}} caracteres restantes)</label>
+          <textarea class="form-control" [maxlength]="tamMaxTexto" rows="5" name="txtTexto" [(ngModel)]="mensaje.texto" (ngModelChange)="cambiarTamTexto()">  
+          </textarea>
+        </div>
+        <div class="row form-group px-2">
+            <button type="button" class="btn btn-primary px-md-4" type="button" (click)="limpiarTexto(); cambiarTamTexto()">Limpiar Mensaje</button>  
+            <button type="button" class="btn btn-primary px-md-4" style="margin-left: 40%;" type="button" data-toggle="modal" data-target="#ventanaModal">Enviar</button>
+            <div class="modal fade" id="ventanaModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionMensaje" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="confirmacionMensaje">Vista previa de su mensaje: </h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>{{mensaje.texto}}</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <button class="btn btn-primary" type="submit">Confirmar</button>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </form>
+</div>  

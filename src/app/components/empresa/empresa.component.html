@@ -1,0 +1,92 @@
+<form class="bg-primary">
+    <h6 class="display-4 text-center py-1 text-white" style="background-color: deepskyblue; margin-top: -18px;"><small>Reserva de pasajes</small></h6>
+    <div class="form-group row">
+        <div class="col-md-3 col-sm-4 col-4">
+            <label class="px-md-3 px-sm-2 px-2 text-white">DNI del pasajero: </label>
+        </div>
+        <div class="col-md-9 col-sm-8 col-8">
+            <input type="number" class="form-control" name="dni" required minlength="7" maxlength="8" [(ngModel)]="pasaje.dniPasajero" style="width: 80%; border-radius: 0%; height: 30px;">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-3 col-sm-4 col-4">
+            <label class="px-md-3 px-sm-2 px-2 text-white">Precio del pasaje: </label>
+        </div>
+        <div class="col-md-9 col-sm-8 col-8">
+            <input type="number" class="form-control" name="precio" required [(ngModel)]="aux" (change)="controlador(); cambiarPrecio()" style="width: 80%; border-radius: 0%; height: 30px;"> 
+        </div>
+    </div>
+    <div class="form-group row py-1">
+        <div class="col-md-3 col-sm-4 col-4">
+            <label class="px-md-3 px-sm-2 px-2 text-white" for="tipos">Tipo de Pasajero: </label>
+        </div>
+        <div class="col-md-9 col-sm-8 col-8">
+            <select class="form-control" id="tipos" required [(ngModel)]="pasaje.tipoPasajero" (change)="pruebaLetra(); cambiarPrecio(); controlador()" name="tipos" style="width: 80%; border-radius: 0%; height: 37px;">
+                <option value="a">Adulto</option>
+                <option value="j"> Jubilado</option>
+                <option value="m"> Menor</option>
+            </select>  
+        </div>
+    </div>
+    <div class="form-group row py-1">
+        <div class="col-md-9 col-sm-8 col-8">
+            <label class="text-right text-white px-md-4 px-2" *ngIf="control"><b> Precio total del pasaje: {{pasaje.precioFinal | currency:'ARS':'symbol':'1.2-2'}}</b></label>
+        </div>
+        <div class="col-md-3 col-sm-4 col-4">
+            <button class="btn btn-warning" type="submit" style="margin-right: 15%; margin-bottom: 5px;" (click)="registrarPasaje()"><b> Registrar pasaje</b></button>
+        </div>    
+    </div>
+</form>
+<h3 class="text-white text-center py-1" style="background-color: black; margin-top: -17px;">Registro de pasajes vendidos</h3>
+<table class="table table-striped" [mfData]="registro" #mf="mfDataTable" [mfRowsOnPage]="5"> 
+    <thead> 
+        <tr>
+            <th> <mfDefaultSorter by="dniPasajero">DNI del Pasajero</mfDefaultSorter> </th> 
+            <th> <mfDefaultSorter by="precioFinal">Precio de Pasaje</mfDefaultSorter> </th> 
+            <th> <mfDefaultSorter by="fechaPasaje">Fecha de Registro</mfDefaultSorter> </th>
+        </tr>
+    </thead>
+    <tbody> 
+        <tr *ngFor="let item of mf.data"> 
+            <td>{{item.dniPasajero}}</td> 
+            <td>{{item.precioFinal | currency:'ARS':'symbol':'1.2-2'}}</td> 
+            <td>{{item.fechaPasaje | date:'dd/MM/yyyy h:mm a'}}</td> 
+        </tr> 
+    </tbody>    
+    <tfoot> 
+        <tr> 
+            <td colspan="4"> 
+                <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator> 
+            </td> 
+        </tr> 
+    </tfoot> 
+</table>
+<h3 class="text-white text-center py-1" style="background-color: black; margin-top: -17px;">Resumen de ventas</h3>
+<table class="table">
+    <thead class="thead-dark">
+      <tr class="text-center">
+        <th scope="col">Tipo de pasajero</th>
+        <th scope="col">Cantidad de pasajes vendidos</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="px-3">
+        <td>Adulto</td>
+        <td>{{pasajeA}}</td>
+      </tr>
+      <tr class="px-3">
+        <td>Jubilado</td>
+        <td>{{pasajeJ}}</td>
+      </tr>
+      <tr class="px-3">
+        <td>Menor</td>
+        <td>{{pasajeM}}</td>
+      </tr>
+    </tbody>
+    <tfoot class="bg-dark text-white">
+        <tr>
+            <td><b>CANTIDAD TOTAL DE PASAJES VENDIDOS:</b></td>
+            <td><b>{{pasajesTotal}}</b></td>
+        </tr>
+    </tfoot>
+  </table>
