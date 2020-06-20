@@ -1,14 +1,19 @@
+import { Adelanto } from '../models/adelanto'
 export class Pasaje {
     
+    _id: string;
     dniPasajero: number;
-    tipoPasajero: string;
-    precioFinal: number;
-    fechaPasaje: Date;
+    categoriaPasajero: string;
+    precioPasaje: number;
+    fechaCompra: Date;
+    adelantos: Array<Adelanto>;
 
-    Pasaje(dniPasajero?: number, tipoPasajero?: string, precioFinal?: number, fechaPasaje?: Date){
+    Pasaje(_id?:string, dniPasajero?: number, tipoPasajero?: string, precioFinal?: number, fechaPasaje?: Date){
+        this._id = _id;
         this.dniPasajero = dniPasajero;
-        this.tipoPasajero = tipoPasajero;
-        this.precioFinal = precioFinal;
-        this.fechaPasaje = fechaPasaje;
+        this.categoriaPasajero = tipoPasajero;
+        this.precioPasaje = precioFinal;
+        this.fechaCompra = fechaPasaje;
+        this.adelantos = new Array<Adelanto>();
     }
 }

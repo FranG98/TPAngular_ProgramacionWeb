@@ -1,11 +1,18 @@
+import { Empresa } from './empresa';
 export class Mensaje {
-    para: number;
-    de: number;
+    _id: string;
+    para: string;
+    desde: string;
     texto: string;
+    fecha: Date;
+    empresa: Empresa;
 
-    Mensaje(para?: number, de?:number, texto?:string){
+    Mensaje(_id?: string, para?: string, desde?:string, texto?:string){
+        this._id = _id;
         this.para = para;
-        this.de = de;
+        this.desde = desde;
         this.texto = texto;
+        this.fecha = new Date();
+        this.empresa = new Empresa();
     }
 }

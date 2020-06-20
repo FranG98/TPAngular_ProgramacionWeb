@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { PalabrasService } from '../../palabras.service';
+import { PalabrasService } from '../../services/palabras.service';
 import { Palabra } from 'src/app/models/palabra';
 @Component({
   selector: 'app-crucigrama',

@@ -1,25 +1,77 @@
 <div>
-    <form class="card">
+    <form class="card" #formMsj="ngForm">
       <div class="card-header bg-warning"> <p class="h4" style="background-color: aquamarine; padding: 5px; border-radius: 3px; margin-top: -12px; width: 225px;">Envía tu Mensaje</p></div>
         <div class="card-body bg-secondary">
           <div class="row form-group">
             <label class="col-sm-12 col-md-4 text-white">Para:</label>
-            <input class="form-control col-sm-12 col-md-8" type="number" name="txtpara" [(ngModel)]="mensaje.para"/>
+            <input class="form-control col-sm-12 col-md-8" type="text" title="SOLO NUMEROS" #para="ngModel" name="para"
+             [(ngModel)]="mensaje.para" minlength="10" required/>
           </div>
+
+          <div *ngIf="para.invalid && (para.dirty || para.touched)"
+          class="alert alert-primary">
+              <div *ngIf="para.errors.required">
+                  Número del destinatario requerido.
+              </div>
+              <div *ngIf="para.errors.minlength">
+                  Un número valido debe contener al menos 10 dígitos.
+              </div>
+          </div> 
+
+          <div class="row form-group">
+            <label class="col-sm-12 col-md-4 text-white">Seleccione Empresa:</label>
+            <select class="form-control col-md-8" id="empresa" #ind="ngModel" name="indice"
+             required [(ngModel)]="indice">
+              <option value="0">Claro</option>
+              <option value="1">Personal</option>
+              <option value="2">Movistar</option>
+            </select>
+          </div>
+
+          <div *ngIf="ind.invalid && (ind.dirty || ind.touched)"
+            class="alert alert-primary">
+            <div *ngIf="ind.errors.required">
+              Debe seleccionar una Empresa.
+            </div>
+          </div>
+
         <div class="row form-group">
           <label class="col-sm-12 col-md-4 text-white" >De:</label>
-          <input class="form-control col-sm-12 col-md-8" type="number" name="txtde" [(ngModel)]="mensaje.de"/>
+          <input class="form-control col-sm-12 col-md-8" type="text" title="SOLO NUMEROS" #desde="ngModel" name="desde"
+           [(ngModel)]="mensaje.desde" minlength="10" required/>
         </div>
+
+        <div *ngIf="desde.invalid && (desde.dirty || desde.touched)"
+          class="alert alert-primary">
+            <div *ngIf="desde.errors.required">
+              Número del remitente requerido.
+            </div>
+            <div *ngIf="desde.errors.minlength">
+              Un número valido debe contener al menos 10 dígitos.
+            </div>
+        </div> 
+
         <label> </label>
         <div class="row form-group">
             <label class="col-sm-6 col-md-8 text-white">Su mensaje</label>
             <label class="col-sm-6 col-md-4 text-right text-white">({{tamMaxTexto-tamTexto}} caracteres restantes)</label>
-          <textarea class="form-control" [maxlength]="tamMaxTexto" rows="5" name="txtTexto" [(ngModel)]="mensaje.texto" (ngModelChange)="cambiarTamTexto()">  
+          <textarea class="form-control" [maxlength]="tamMaxTexto" rows="5" #texto="ngModel" name="texto"
+           [(ngModel)]="mensaje.texto" (ngModelChange)="cambiarTamTexto()" required>  
           </textarea>
         </div>
+        
+        <div *ngIf="texto.invalid && (texto.dirty || texto.touched)"
+          class="alert alert-primary">
+          <div *ngIf="texto.errors.required">
+            Debe ingresar un mensaje.
+          </div>
+        </div>
+
         <div class="row form-group px-2">
             <button type="button" class="btn btn-primary px-md-4" type="button" (click)="limpiarTexto(); cambiarTamTexto()">Limpiar Mensaje</button>  
-            <button type="button" class="btn btn-primary px-md-4" style="margin-left: 40%;" type="button" data-toggle="modal" data-target="#ventanaModal">Enviar</button>
+            <button type="button" class="btn btn-primary px-md-4" style="margin-left: 40%;" type="button" 
+            data-toggle="modal" data-target="#ventanaModal" [disabled]="formMsj.invalid">Enviar</button>
+            
             <div class="modal fade" id="ventanaModal" tabindex="-1" role="dialog" aria-labelledby="confirmacionMensaje" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
@@ -34,7 +86,7 @@
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                      <button class="btn btn-primary" type="submit">Confirmar</button>
+                      <button class="btn btn-primary" type="button" (click)="enviarTexto()">Confirmar</button>
                     </div>
                   </div>
                 </div>

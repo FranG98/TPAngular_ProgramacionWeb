@@ -1,42 +1,147 @@
-<form class="bg-primary">
+<form class="bg-primary" #formPasaje="ngForm">
     <h6 class="display-4 text-center py-1 text-white" style="background-color: deepskyblue; margin-top: -18px;"><small>Reserva de pasajes</small></h6>
     <div class="form-group row">
         <div class="col-md-3 col-sm-4 col-4">
             <label class="px-md-3 px-sm-2 px-2 text-white">DNI del pasajero: </label>
         </div>
         <div class="col-md-9 col-sm-8 col-8">
-            <input type="number" class="form-control" name="dni" required minlength="7" maxlength="8" [(ngModel)]="pasaje.dniPasajero" style="width: 80%; border-radius: 0%; height: 30px;">
+            <input type="text" class="form-control" name="dniPasajero" 
+            required #dniPasajero="ngModel" minlength="7" maxlength="8" [(ngModel)]="pasaje.dniPasajero" style="width: 80%; border-radius: 0%; height: 30px;">
         </div>
     </div>
+
+    <div *ngIf="dniPasajero.invalid && (dniPasajero.dirty || dniPasajero.touched)"
+    class="alert alert-warning">
+        <div *ngIf="dniPasajero.errors.required">
+            Se debe ingresar un DNI.
+        </div>
+        <div *ngIf="dniPasajero.errors.minlength">
+            El DNI debe tener al menos 7 digitos.
+        </div>
+        <div *ngIf="dniPasajero.errors.maxlength">
+            El DNI no puede tener mas de 8 digitos.
+        </div>
+    </div> 
+
     <div class="form-group row">
         <div class="col-md-3 col-sm-4 col-4">
             <label class="px-md-3 px-sm-2 px-2 text-white">Precio del pasaje: </label>
         </div>
         <div class="col-md-9 col-sm-8 col-8">
-            <input type="number" class="form-control" name="precio" required [(ngModel)]="aux" (change)="controlador(); cambiarPrecio()" style="width: 80%; border-radius: 0%; height: 30px;"> 
+            <input type="number" class="form-control" #ax="ngModel" name="aux" 
+            required [(ngModel)]="aux" (change)="controlador(); cambiarPrecio()" style="width: 80%; border-radius: 0%; height: 30px;"> 
         </div>
     </div>
+
+    <div *ngIf="ax.invalid && (ax.dirty || ax.touched)"
+    class="alert alert-warning">
+        <div *ngIf="ax.errors.required">
+            Monto del pasaje es requerido.
+        </div>
+    </div>    
+
     <div class="form-group row py-1">
         <div class="col-md-3 col-sm-4 col-4">
             <label class="px-md-3 px-sm-2 px-2 text-white" for="tipos">Tipo de Pasajero: </label>
         </div>
         <div class="col-md-9 col-sm-8 col-8">
-            <select class="form-control" id="tipos" required [(ngModel)]="pasaje.tipoPasajero" (change)="pruebaLetra(); cambiarPrecio(); controlador()" name="tipos" style="width: 80%; border-radius: 0%; height: 37px;">
+            <select class="form-control" id="categoriaPasajero" required #categoriaPasajero="ngModel"
+            [(ngModel)]="pasaje.categoriaPasajero" (change)="pruebaLetra(); cambiarPrecio(); controlador()" name="categoriaPasajero" style="width: 80%; border-radius: 0%; height: 37px;">
                 <option value="a">Adulto</option>
                 <option value="j"> Jubilado</option>
                 <option value="m"> Menor</option>
             </select>  
+    
         </div>
+           
+        <div *ngIf="categoriaPasajero.invalid && (categoriaPasajero.dirty || categoriaPasajero.touched)"
+                class="alert alert-warning" style="width: 97%; margin-left: 14px; margin-top: 5px;">
+                <div *ngIf="categoriaPasajero.errors.required">
+                    Se debe seleccionar un tipo.
+                </div>
+        </div> 
+
     </div>
     <div class="form-group row py-1">
         <div class="col-md-9 col-sm-8 col-8">
-            <label class="text-right text-white px-md-4 px-2" *ngIf="control"><b> Precio total del pasaje: {{pasaje.precioFinal | currency:'ARS':'symbol':'1.2-2'}}</b></label>
+            <label class="text-right text-white px-md-4 px-2" *ngIf="control"><b> Precio total del pasaje: {{pasaje.precioPasaje | currency:'ARS':'symbol':'1.2-2'}}</b></label>
         </div>
         <div class="col-md-3 col-sm-4 col-4">
-            <button class="btn btn-warning" type="submit" style="margin-right: 15%; margin-bottom: 5px;" (click)="registrarPasaje()"><b> Registrar pasaje</b></button>
+            <button class="btn btn-warning" type="submit" style="margin-right: 15%; margin-bottom: 5px;" (click)="registrarPasaje()" [disabled]="formPasaje.invalid"><b> Registrar pasaje</b></button>
         </div>    
     </div>
+
+
+<div *ngIf="control">
+<h3 class="text-white text-center py-1" style="background-color: black;">Adelantos</h3>
+
+    <form class="bg-primary" #formAdel="ngForm">
+        <h4 class="text-center py-1 text-white" style="background-color: deepskyblue; margin-top: -10px;"><small>Agregar Adelanto</small></h4>
+        <div class="row form-group">
+            <div class="col-md-3 col-sm-4">
+                <label class="text-white px-md-3 px-2 py-1">Monto a abonar: </label>
+            </div>
+            <div class="col-md-9 col-sm-8">
+                <input type="number" name="montoAdelanto" #montoAdelanto="ngModel" (change)="controlMonto()" required [(ngModel)]="adelantoNuevo.montoAdelanto" 
+                class="form-control py-1" style="width: 80%; border-radius: 0%; height: 30px;">
+            </div>
+
+            <div *ngIf="control2" style="width: 97%; margin-left: 14px; margin-top: 3px;">
+                <div class="alert alert-warning">
+                    Debe ingresar un monto menor.
+                </div>
+            </div>
+
+            <div *ngIf="montoAdelanto.invalid && (montoAdelanto.dirty || montoAdelanto.touched)"
+            class="alert alert-warning" style="width: 97%; margin-left: 14px; margin-top: 5px;">
+                <div *ngIf="montoAdelanto.errors.required">
+                    Se debe ingresar un monto.
+                </div>
+            </div> 
+
+            <div class="col-md-3 col-sm-4">
+                <label class="text-white px-md-3 px-2 py-1">Nombre del cobrador: </label>
+            </div>
+            <div class="col-md-9 col-sm-8">
+                <input type="text" class="form-control py-1" name="cobrador" #cobrador="ngModel"
+                [(ngModel)]="adelantoNuevo.cobrador" required minlength="3" style="width: 80%; border-radius: 0%; height: 30px;">   
+            </div>
+
+            <div *ngIf="cobrador.invalid && (cobrador.dirty || cobrador.touched)"
+            class="alert alert-primary" style="width: 97%; margin-left: 14px; margin-top: 5px;">
+                <div *ngIf="cobrador.errors.required">
+                    Nombre del cobrador es requerido.
+                </div>
+                <div *ngIf="cobrador.errors.minlength">
+                    Nombre del cobrador debe tener al menos 3 caracteres.
+                </div>
+            </div> 
+            <button class="btn btn-warning text-right" type="button" style="margin-left: 73%; margin-top: 10px;" (click)="agregarAdelanto()" [disabled]="formAdel.invalid || control2"><b> Guardar adelanto</b></button>
+        </div>
+    </form>
+
+    <table class="table table-hover">
+        <thead style="background-color: lightgray;">
+            <tr>
+                <th scope="col">Monto abonado</th>
+                <th scope="col">Cobrador</th>
+                <th scope="col">Fecha del Adelanto</th>
+                <th scope="col">Borrar adelanto</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white">
+            <tr class="px-3" *ngFor="let item of adelantos; index as i">
+                <td>{{item.montoAdelanto | currency:'ARS':'symbol':'1.2-2'}}</td>
+                <td>{{item.cobrador}}</td>
+                <td>{{item.fecha | date:'dd/MM/yyyy h:mm a'}}</td>
+                <td><button class="btn btn-dark text-white text-center" (click)="eliminarAdelanto(i)">Eliminar</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
 </form>
+
 <h3 class="text-white text-center py-1" style="background-color: black; margin-top: -17px;">Registro de pasajes vendidos</h3>
 <table class="table table-striped" [mfData]="registro" #mf="mfDataTable" [mfRowsOnPage]="5"> 
     <thead> 
@@ -44,13 +149,18 @@
             <th> <mfDefaultSorter by="dniPasajero">DNI del Pasajero</mfDefaultSorter> </th> 
             <th> <mfDefaultSorter by="precioFinal">Precio de Pasaje</mfDefaultSorter> </th> 
             <th> <mfDefaultSorter by="fechaPasaje">Fecha de Registro</mfDefaultSorter> </th>
+            <th> Operaciones </th>
         </tr>
     </thead>
     <tbody> 
         <tr *ngFor="let item of mf.data"> 
             <td>{{item.dniPasajero}}</td> 
-            <td>{{item.precioFinal | currency:'ARS':'symbol':'1.2-2'}}</td> 
-            <td>{{item.fechaPasaje | date:'dd/MM/yyyy h:mm a'}}</td> 
+            <td>{{item.precioPasaje | currency:'ARS':'symbol':'1.2-2'}}</td> 
+            <td>{{item.fechaCompra | date:'dd/MM/yyyy h:mm a'}}</td> 
+            <td>
+                <button class="btn btn-dark text-white" type="button" (click)="editarPasaje(item)">Modificar</button>
+                <button class="btn btn-dark text-white" type="button" style="margin-left: 15px;" (click)="eliminarPasaje(item._id)">Eliminar</button>     
+            </td>
         </tr> 
     </tbody>    
     <tfoot> 
@@ -61,7 +171,7 @@
         </tr> 
     </tfoot> 
 </table>
-<h3 class="text-white text-center py-1" style="background-color: black; margin-top: -17px;">Resumen de ventas</h3>
+<!--<h3 class="text-white text-center py-1" style="background-color: black; margin-top: -17px;">Resumen de ventas</h3>
 <table class="table">
     <thead class="thead-dark">
       <tr class="text-center">
@@ -89,4 +199,4 @@
             <td><b>{{pasajesTotal}}</b></td>
         </tr>
     </tfoot>
-  </table>
+  </table>-->

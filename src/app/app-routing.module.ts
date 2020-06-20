@@ -8,8 +8,9 @@ import { FormularioComponent } from './components/formulario/formulario.componen
 import { EmpresaComponent } from './components/empresa/empresa.component';
 import { CrucigramaComponent } from './components/crucigrama/crucigrama.component';
 
-import { PasajeService } from './pasaje.service'
-import { PalabrasService } from './palabras.service'
+import { PasajeService } from './services/pasaje.service';
+import { PalabrasService } from './services/palabras.service';
+import { AsistenteService } from './services/asistente.service';
 const routes: Routes = [
   {path: 'header', component: HeaderComponent},
   {path: 'home', component: HomeComponent},
@@ -22,6 +23,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [PasajeService, PalabrasService]
+  providers: [PasajeService, PalabrasService, AsistenteService],
 })
 export class AppRoutingModule { }

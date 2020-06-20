@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgxDataTableModule } from 'angular-9-datatable'
+import { HttpClientModule } from '@angular/common/http';
+import { NgxDataTableModule } from 'angular-9-datatable';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,13 +21,15 @@ import { CrucigramaComponent } from './components/crucigrama/crucigrama.componen
     MensajesComponent,
     FormularioComponent,
     EmpresaComponent,
-    CrucigramaComponent
+    CrucigramaComponent,
+    
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    NgxDataTableModule
+    NgxDataTableModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
